@@ -1,0 +1,31 @@
+http:
+  routers:
+    bot:
+      rule: 'PathPrefix(`/bot`)'
+      service: bot
+    dashboard:
+      rule: "PathPrefix(`/dashboard`) || PathPrefix(`/api`)"
+      service: api@internal
+
+  services:
+    bot:
+      loadBalancer:
+        servers:
+          - url: "http://bot:3000"
+
+  middlewares:
+    cache-on-steroids:
+      plugin:
+        plugin-simplecache:
+          path: /tmp/
+          CacheQueryParams: True
+
+    maxage:
+      headers:
+        customResponseHeaders:
+          Cache-Control: "max-age=20"
+    coop:
+      headers:
+        customResponseHeaders:
+          Cross-Origin-Opener-Policy: "same-origin"
+

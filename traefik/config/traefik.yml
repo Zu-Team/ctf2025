@@ -1,0 +1,26 @@
+log:
+  level: INFO
+
+accessLog: {}
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      middlewares:
+        - maxage
+        - coop
+        - cache-on-steroids
+
+providers:
+  file:
+    filename: /config/dynamic.yml
+
+api:
+  dashboard: true
+
+experimental:
+  plugins:
+    plugin-simplecache:
+      moduleName: "github.com/scrazy77/plugin-simplecache-nocache"
+      version: "v0.0.5"
