@@ -1,0 +1,16 @@
+services:
+  traefik:
+    image: busytraffic-traefik
+    build:
+      context: ./traefik
+    command:
+      - "--configFile=/config/traefik.yml"
+    ports:
+      - "${PORT:-3333}:80"
+  bot:
+    image: busytraffic-bot
+    build:
+      context: ./bot
+    environment:
+      - FLAG=${FLAG:-justCTF{example_flag}}
+      - SECRET=${SECRET:-instancer_secret}
